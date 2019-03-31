@@ -48,7 +48,7 @@ fi
 # Iterate through all of the records
 for (( i="$START_PAGE"; i<="$TOTAL_PAGES"; i++ )); do
 
-    # Get the record
+    # Retrieve this page of records
     URL="https://api.wigle.net/api/v2/network/search?onlymine=false&$QUADRANGLE&lastupdt=20150101&freenet=false&paynet=false&resultsPerPage=100&searchAfter=$START"
     curl -s -X GET "$URL" -H "accept: application/json" -u "$API_KEY" --basic > wigle-"$i".json
     echo "$i" of "$TOTAL_PAGES"

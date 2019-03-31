@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Define our API key.
+API_KEY=SPECIFY_API_KEY_HERE
+
+# Define the quadrangle being retrieved.
+QUADRANGLE="latrange1=37.72&latrange2=38.28&longrange1=-78.84&longrange2=-78.21"
+
 # Every time this exits, record the state
 function finish {
     echo "TOTAL_RECORDS=$TOTAL_RECORDS
@@ -9,12 +15,6 @@ START=$START
 CURRENT_PAGE=$i" > .state
 }
 trap finish EXIT
-
-# Define our API key.
-API_KEY=SPECIFY_API_KEY_HERE
-
-# Define the quadrangle being retrieved.
-QUADRANGLE="latrange1=37.72&latrange2=38.28&longrange1=-78.84&longrange2=-78.21"
 
 # If a state file has been saved, get the state from that
 if [ -f .state ]; then
@@ -27,6 +27,14 @@ if [ -z "$START" ]; then
     URL="https://api.wigle.net/api/v2/network/search?onlymine=false&$QUADRANGLE&lastupdt=20150101&freenet=false&paynet=false&resultsPerPage=100"
     curl -s -X GET "$URL" -H "accept: application/json" \
         -u "$API_KEY" --basic > wigle-0.json
+    
+    # Check for errors returned from the API
+    SUCCESS=$(jq ".success" wigle-"$i".json)
+    if [ "$SUCCESS" == "false" ]; then
+        ERROR_MESSAGE=$(jq ".message" wigle-"$i".json)
+        echo "The API returned the following error: $ERROR_MESSAGE"
+        exit 1
+    fi
 
     # Figure out how to do the paging
     TOTAL_RECORDS=$(jq ".totalResults" wigle-0.json)
@@ -39,7 +47,7 @@ if [ -z "$START" ]; then
 fi
 
 # Figure out what page to start on
-if [[ -v CURRENT_PAGE ]]; then
+if [[ -n "$CURRENT_PAGE" ]]; then
     START_PAGE="$CURRENT_PAGE"
 else
     START_PAGE=1
@@ -53,7 +61,7 @@ for (( i="$START_PAGE"; i<="$TOTAL_PAGES"; i++ )); do
     curl -s -X GET "$URL" -H "accept: application/json" -u "$API_KEY" --basic > wigle-"$i".json
     echo "$i" of "$TOTAL_PAGES"
     
-    # Check for errors returned by the API
+    # Check for errors returned from the API
     SUCCESS=$(jq ".success" wigle-"$i".json)
     if [ "$SUCCESS" == "false" ]; then
         ERROR_MESSAGE=$(jq ".message" wigle-"$i".json)

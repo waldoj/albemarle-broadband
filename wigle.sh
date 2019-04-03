@@ -68,8 +68,20 @@ for (( i="$START_PAGE"; i<="$TOTAL_PAGES"; i++ )); do
         echo "The API returned the following error: $ERROR_MESSAGE"
         exit 1
     fi
+    
+    # Check for 404 errors
+    HTTP_CODE=$(jq ".code" wigle-"$i".json)
+    if [ "$HTTP_CODE" != "null" ]; then
+        ERROR_MESSAGE=$(jq ".message" wigle-"$i".json)
+        echo "The API returned an HTTP $HTTP_CODE with the following error: $ERROR_MESSAGE"
+        exit 1
+    fi
 
     # Assign a new value to start at for the next query
     START=$(jq ".search_after" wigle-"$i".json)
+    if [[ -z "$START" ]]; then
+        echo "All results retrieved"
+        exit 0
+    fi
 
 done

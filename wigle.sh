@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+###
+# WiGLE API Harvester
+#
+# WiGLE <https://wigle.net/> provides a robust API, but no bulk data. This script will
+# page through all of the results (at 100 records per page) and export them into a
+# series of files. It’s resumable, storing state every time the program terminates).
+#
+# To use it, set up an account on WiGLE, and modify API_KEY to equal the value of your
+# cURL-encoded API name and token, in the API_NAME:API_TOKEN format. Then specify the
+# quadrangle that you want to retrieve data for (the only shape supported by the WiGLE
+# API) as QUADRANGLE, maintaining the URL-encoded format. Then simply run this with
+# ./wigle-sh.
+###
+
 # Define our API key.
 API_KEY=SPECIFY_API_KEY_HERE
 

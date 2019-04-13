@@ -6,7 +6,7 @@
 # Step 1: Download Kali https://www.offensive-security.com/kali-linux-arm-images/
 # Step 2: Load the image onto a MicroSD card with https://www.balena.io/etcher/
 # Step 3: Install the MicroSD, boot the Raspberry Pi
-# Step 4: curl -sSL https://raw.githubusercontent.com/waldoj/albemarle-broadband/master/kismet-pi.sh | sh
+# Step 4: curl -sSL https://raw.githubusercontent.com/waldoj/albemarle-broadband/master/pidriving/kismet-pi.sh | sh
 
 # Install Kismet and GPS support
 apt-get update
@@ -25,6 +25,7 @@ echo "ncsource=wlan0" >> /etc/kismet/kismet.conf
 echo "ncsource=wlan1" >> /etc/kismet/kismet.conf
 
 # Set up Kismet to run at boot time
+curl -o crontab.txt https://raw.githubusercontent.com/waldoj/albemarle-broadband/master/pidriving/crontab.txt
 crontab crontab.txt
 
 # Reboot the system

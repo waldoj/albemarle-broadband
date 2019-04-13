@@ -20,8 +20,12 @@ systemctl disable gpsd.socket
 # Disable timeout for wireless interface
 echo "iface wlan1 inet static" >> /etc/network/interfaces
 
-# Copy over Kismet config file
+# Add both wireless interfaces to Kismet's configuration
+echo "ncsource=wlan0" >> /etc/kismet/kismet.conf
+echo "ncsource=wlan1" >> /etc/kismet/kismet.conf
 
 # Set up Kismet to run at boot time
+crontab crontab.txt
 
 # Reboot the system
+reboot now

@@ -28,5 +28,15 @@ echo "ncsource=wlan1" >> /etc/kismet/kismet.conf
 curl -o crontab.txt https://raw.githubusercontent.com/waldoj/albemarle-broadband/master/pidriving/crontab.txt
 crontab crontab.txt
 
+# Set system to use runlevel 3
+systemctl set-default multi-user.target
+
+# Install SSH server
+apt-get install penssh-server
+update-rc.d -f ssh remove
+update-rc.d -f ssh defaults
+update-rc.d -f ssh enable 2 3 4 5
+sudo service ssh restart
+
 # Reboot the system
 reboot now

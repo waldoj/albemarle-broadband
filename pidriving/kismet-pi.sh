@@ -13,6 +13,10 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y kismet gpsd gpsd-clients python-gps
 
+# Use Eastern Time (update to your preference, of course)
+rm /etc/localtime
+ln -s /usr/share/zoneinfo/US/Eastern /etc/localtime
+
 # Disable the GPSD systemd
 systemctl stop gpsd.socket
 systemctl disable gpsd.socket

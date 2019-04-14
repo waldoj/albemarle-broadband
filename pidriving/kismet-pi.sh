@@ -24,6 +24,9 @@ echo "iface wlan1 inet static" >> /etc/network/interfaces
 echo "ncsource=wlan0" >> /etc/kismet/kismet.conf
 echo "ncsource=wlan1" >> /etc/kismet/kismet.conf
 
+# Enable audio alerts in Kismet
+sed -i 's/enablesound=false/enablesound=true/g' /etc/kismet/kismet.conf
+
 # Set up Kismet to run at boot time
 curl -o crontab.txt https://raw.githubusercontent.com/waldoj/albemarle-broadband/master/pidriving/crontab.txt
 crontab crontab.txt

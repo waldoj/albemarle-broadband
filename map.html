@@ -64,6 +64,11 @@
 
 	map.addLayer(markers);
 
+	$.getJSON('albemarle-census-blocks.geojson', function(response){
+		var boundaries = L.geoJSON(response.features).addTo(map);
+		map.addLayer(boundaries);
+	});
+
 </script>
 
 

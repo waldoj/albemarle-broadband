@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Turn all of the results into a CSV file
 jq '.results | .[]' *.json |json2csv > /tmp/places.csv

@@ -12,6 +12,10 @@
 # quadrangle that you want to retrieve data for (the only shape supported by the WiGLE
 # API) as QUADRANGLE, maintaining the URL-encoded format. Then simply run this with
 # ./wigle-sh.
+#
+# WiGLE provides a low cap of daily queries, so for building a map that numbers in the
+# thousands of datapoints, contact them to explain your work and ask that they raise
+# your account’s cap. It is an all-volunteer project -- be nice.
 ###
 
 # Define our API key.
